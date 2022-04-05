@@ -1,8 +1,8 @@
 {
-  "name": "practice_proj_1",
+  "name": "tweeter",
   "version": "0.1.0",
   "bin": {
-    "practice_proj_1": "bin/practice_proj_1.js"
+    "tweeter": "bin/tweeter.js"
   },
   "scripts": {
     "build": "tsc",
@@ -12,14 +12,16 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.10",
-    "@types/node": "10.17.27",
+    "@types/node": "^10.17.27",
+    "aws-cdk": "2.13.0",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
-    "aws-cdk": "2.13.0",
     "ts-node": "^9.0.0",
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-appsync-alpha": "^2.13.0-alpha.0",
+    "@aws-cdk/aws-iam": "^1.149.0",
     "aws-cdk-lib": "2.13.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.16"

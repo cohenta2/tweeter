@@ -1,0 +1,9 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key": {
+        "pk" : $util.dynamodb.toDynamoDBJson("USER#1234"),
+        "sk" : $util.dynamodb.toDynamoDBJson("TWEET#" + $util.autoId())
+    },
+    "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args)
+}
