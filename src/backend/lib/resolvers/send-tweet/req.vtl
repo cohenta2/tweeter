@@ -1,9 +1,14 @@
+#set( $args = {
+  "id": "$util.autoId()",
+  "body": "$ctx.args.body",
+  "userName": "$context.identity.username"
+} )
 {
     "version" : "2017-02-28",
     "operation" : "PutItem",
     "key": {
         "pk" : $util.dynamodb.toDynamoDBJson("USER#1234"),
-        "sk" : $util.dynamodb.toDynamoDBJson("TWEET#" + $util.autoId())
+        "sk" : $util.dynamodb.toDynamoDBJson("TWEET#$args.id")
     },
-    "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args)
+    "attributeValues" : $util.dynamodb.toMapValuesJson($args)
 }

@@ -2,17 +2,37 @@ import { Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as appsync from "@aws-cdk/aws-appsync-alpha";
 import { ITable } from "aws-cdk-lib/aws-dynamodb";
+import { IUserPool } from "aws-cdk-lib/aws-cognito";
+
+export interface AppSyncStackProps extends StackProps {
+  table: ITable;
+  userPool: IUserPool;
+}
 
 export class AppSyncStack extends Stack {
-  constructor(scope: Construct, id: string, table: ITable, props?: StackProps) {
+  private table: ITable;
+  private userPool: IUserPool;
+
+  constructor(scope: Construct, id: string, props: AppSyncStackProps) {
     super(scope, id, props);
+
+    this.table = props.table;
+    this.userPool = props.userPool;
 
     const api = new appsync.GraphqlApi(this, "Api", {
       name: "TweeterApi",
       xrayEnabled: true,
+      authorizationConfig: {
+        defaultAuthorization: {
+          authorizationType: appsync.AuthorizationType.USER_POOL,
+          userPoolConfig: {
+            userPool: this.userPool,
+          },
+        },
+      },
     });
 
-    const tableDataSource = api.addDynamoDbDataSource("Table", table);
+    const tableDataSource = api.addDynamoDbDataSource("Table", this.table);
     const tweetInput = new appsync.InputType("TweetInput", {
       definition: {
         body: appsync.GraphqlType.string(),
